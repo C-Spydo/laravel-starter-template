@@ -55,6 +55,35 @@ A comprehensive Laravel 11 starter template with Docker, authentication, health 
    - API: http://localhost:8000/api
    - Health Check: http://localhost:8000/health
 
+## Troubleshooting
+
+### If Docker build fails with autoloader errors
+
+If you encounter issues during the Docker build process, you can manually install dependencies:
+
+```bash
+# Start containers without building
+docker-compose up -d
+
+# Install dependencies manually
+docker-compose exec app composer install
+
+# Generate application key
+docker-compose exec app php artisan key:generate
+
+# Run migrations (will create SQLite database if it doesn't exist)
+docker-compose exec app php artisan migrate
+
+# Seed the database
+docker-compose exec app php artisan db:seed
+```
+
+### Common Issues
+
+- **Autoloader not found**: Run `docker-compose exec app composer install`
+- **Database not found**: The migration command will prompt to create it automatically
+- **Permission issues**: Ensure storage and bootstrap/cache directories are writable
+
 ## Environment Configuration
 
 The template comes with sensible defaults for SQLite:

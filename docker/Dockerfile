@@ -40,17 +40,24 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Set the working directory
 WORKDIR /var/www/html
 
-# Copy and install PHP dependencies
-COPY composer.json composer.lock ./
+# Copy composer files first
+COPY composer.json ./
 
-# Copy Laravel files to the container
+# Install PHP dependencies without running post-install scripts
+RUN composer install --no-interaction --no-progress --no-scripts
+
+# Copy all Laravel files to the container
 COPY . /var/www/html
 
-RUN composer install --no-dev --optimize-autoloader
+# Fix git ownership issue
+RUN git config --global --add safe.directory /var/www/html
 
 # Set correct permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Run composer scripts and regenerate autoloader after all files are copied
+RUN composer install --no-interaction --no-progress --optimize-autoloader
 
 # Install frontend dependencies and build assets with Vite
 RUN npm install && npm run build
