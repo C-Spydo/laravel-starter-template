@@ -1,15 +1,16 @@
 {
-    "name": "laravel/laravel",
+    "name": "laravel/laravel-starter-template",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "A comprehensive Laravel starter template with Docker, authentication, health endpoints, and SQLite.",
+    "keywords": ["framework", "laravel", "starter", "template", "docker"],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
+        "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5"
     },
     "require-dev": {

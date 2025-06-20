@@ -1,62 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Laravel Starter Template
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive Laravel starter template with Docker, authentication, health endpoints, optimized logging, and SQLite out of the box.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- 🐳 **Dockerized** - Complete Docker setup with Nginx and PHP-FPM
+- 🔐 **Authentication Ready** - Laravel Breeze authentication with API tokens
+- 🏥 **Health Endpoints** - Built-in health check endpoints for monitoring
+- 📝 **Optimized Logging** - Structured logging with proper configuration
+- 💾 **SQLite by Default** - Lightweight database setup for rapid development
+- 🚀 **Production Ready** - Optimized for both development and production
+- 🧪 **Testing Setup** - PHPUnit configuration with example tests
+- 📊 **API Documentation** - Ready for API documentation tools
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Quick Start
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prerequisites
 
-## Learning Laravel
+- Docker and Docker Compose
+- Git
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd laravel-starter-template
+   ```
 
-## Laravel Sponsors
+2. **Copy environment file**
+   ```bash
+   cp .env.example .env
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+3. **Start the application**
+   ```bash
+   docker-compose up -d
+   ```
 
-### Premium Partners
+4. **Install dependencies and setup**
+   ```bash
+   docker-compose exec app composer install
+   docker-compose exec app php artisan key:generate
+   docker-compose exec app php artisan migrate
+   docker-compose exec app php artisan db:seed
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+5. **Access your application**
+   - Web: http://localhost:8000
+   - API: http://localhost:8000/api
+   - Health Check: http://localhost:8000/health
+
+## Environment Configuration
+
+The template comes with sensible defaults for SQLite:
+
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=/var/www/html/database/database.sqlite
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/login` - Login with email/password
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/logout` - Logout (requires authentication)
+- `GET /api/auth/user` - Get current user (requires authentication)
+
+### Health Checks
+- `GET /health` - Basic health check
+- `GET /health/detailed` - Detailed health check with database status
+
+## Development
+
+### Running Tests
+```bash
+docker-compose exec app php artisan test
+```
+
+### Database Migrations
+```bash
+docker-compose exec app php artisan migrate
+docker-compose exec app php artisan migrate:rollback
+```
+
+### Artisan Commands
+```bash
+docker-compose exec app php artisan list
+```
+
+## Production Deployment
+
+1. Update environment variables for production
+2. Set `APP_ENV=production` and `APP_DEBUG=false`
+3. Run `php artisan config:cache` and `php artisan route:cache`
+4. Ensure proper file permissions on storage and bootstrap/cache directories
+
+## Logging
+
+The template includes optimized logging configuration:
+- Structured JSON logging for better parsing
+- Separate log files for different environments
+- Error tracking and monitoring ready
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Submit a pull request
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
