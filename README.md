@@ -1,17 +1,21 @@
 # Laravel Starter Template
 
-A comprehensive Laravel starter template with Docker, authentication, health endpoints, optimized logging, and SQLite out of the box.
+A comprehensive Laravel 11 starter template with Docker, authentication, health endpoints, optimized logging, and SQLite out of the box.
+
+**Created by [C-Spydo](https://github.com/C-Spydo)**  
+**Contact: csamsonok@gmail.com**
 
 ## Features
 
-- 🐳 **Dockerized** - Complete Docker setup with Nginx and PHP-FPM
-- 🔐 **Authentication Ready** - Laravel Breeze authentication with API tokens
+- 🐳 **Dockerized** - Complete Docker setup with Nginx and PHP-FPM 8.2
+- 🔐 **Authentication Ready** - Laravel Sanctum authentication with API tokens
 - 🏥 **Health Endpoints** - Built-in health check endpoints for monitoring
 - 📝 **Optimized Logging** - Structured logging with proper configuration
 - 💾 **SQLite by Default** - Lightweight database setup for rapid development
 - 🚀 **Production Ready** - Optimized for both development and production
 - 🧪 **Testing Setup** - PHPUnit configuration with example tests
 - 📊 **API Documentation** - Ready for API documentation tools
+- ⚡ **Modern Frontend** - Vite build tool with Tailwind CSS
 
 ## Quick Start
 
@@ -85,6 +89,15 @@ docker-compose exec app php artisan migrate
 docker-compose exec app php artisan migrate:rollback
 ```
 
+### Frontend Development
+```bash
+# Development mode with hot reload
+npm run dev
+
+# Build for production
+npm run build
+```
+
 ### Artisan Commands
 ```bash
 docker-compose exec app php artisan list
@@ -96,6 +109,7 @@ docker-compose exec app php artisan list
 2. Set `APP_ENV=production` and `APP_DEBUG=false`
 3. Run `php artisan config:cache` and `php artisan route:cache`
 4. Ensure proper file permissions on storage and bootstrap/cache directories
+5. Build frontend assets: `npm run build`
 
 ## Logging
 
