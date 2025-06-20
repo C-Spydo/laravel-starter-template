@@ -12,7 +12,7 @@ class JsonFormatter extends BaseJsonFormatter
         $this->includeStacktraces = true;
     }
 
-    protected function normalize($data, $depth = 0)
+    protected function normalize(mixed $data, int $depth = 0): mixed
     {
         if ($depth > $this->maxNormalizeDepth) {
             return 'Over ' . $this->maxNormalizeDepth . ' levels deep, aborting normalization';
@@ -68,12 +68,8 @@ class JsonFormatter extends BaseJsonFormatter
         return $data;
     }
 
-    protected function normalizeException($e, $depth = 0)
+    protected function normalizeException(\Throwable $e, int $depth = 0): array
     {
-        if (!$e instanceof \Throwable) {
-            throw new \InvalidArgumentException('Exception must implement Throwable');
-        }
-
         $data = [
             'class' => get_class($e),
             'message' => $e->getMessage(),

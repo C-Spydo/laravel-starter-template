@@ -7,10 +7,42 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @OA\Info(
+ *     version="1.0.0",
+ *     title="Laravel Starter Template API",
+ *     description="A comprehensive Laravel starter template with authentication, health endpoints, and more.",
+ *     @OA\Contact(
+ *         email="csamsonok@gmail.com",
+ *         name="API Support"
+ *     )
+ * )
+ * 
+ * @OA\Server(
+ *     url=L5_SWAGGER_CONST_HOST,
+ *     description="API Server"
+ * )
+ */
 class HealthController extends Controller
 {
     /**
      * Basic health check endpoint
+     * 
+     * @OA\Get(
+     *     path="/health",
+     *     summary="Basic health check",
+     *     description="Returns basic application health status",
+     *     tags={"Health"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Application is healthy",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="healthy"),
+     *             @OA\Property(property="timestamp", type="string", format="date-time"),
+     *             @OA\Property(property="version", type="string", example="1.0.0")
+     *         )
+     *     )
+     * )
      */
     public function basic()
     {
@@ -23,6 +55,54 @@ class HealthController extends Controller
 
     /**
      * Detailed health check endpoint
+     * 
+     * @OA\Get(
+     *     path="/health/detailed",
+     *     summary="Detailed health check",
+     *     description="Returns detailed health status including database, cache, and storage checks",
+     *     tags={"Health"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="All systems are healthy",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="healthy"),
+     *             @OA\Property(property="timestamp", type="string", format="date-time"),
+     *             @OA\Property(property="version", type="string", example="1.0.0"),
+     *             @OA\Property(
+     *                 property="checks",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="database",
+     *                     type="object",
+     *                     @OA\Property(property="status", type="string", example="healthy"),
+     *                     @OA\Property(property="message", type="string", example="Database connection successful")
+     *                 ),
+     *                 @OA\Property(
+     *                     property="cache",
+     *                     type="object",
+     *                     @OA\Property(property="status", type="string", example="healthy"),
+     *                     @OA\Property(property="message", type="string", example="Cache is working properly")
+     *                 ),
+     *                 @OA\Property(
+     *                     property="storage",
+     *                     type="object",
+     *                     @OA\Property(property="status", type="string", example="healthy"),
+     *                     @OA\Property(property="message", type="string", example="All storage directories are accessible")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=503,
+     *         description="One or more systems are unhealthy",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="unhealthy"),
+     *             @OA\Property(property="timestamp", type="string", format="date-time"),
+     *             @OA\Property(property="version", type="string", example="1.0.0"),
+     *             @OA\Property(property="checks", type="object")
+     *         )
+     *     )
+     * )
      */
     public function detailed()
     {

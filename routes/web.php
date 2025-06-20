@@ -21,3 +21,12 @@ Route::get('/', function () {
 // Health check endpoints (also available via web for monitoring tools)
 Route::get('/health', [HealthController::class, 'basic']);
 Route::get('/health/detailed', [HealthController::class, 'detailed']);
+
+// Swagger documentation JSON endpoint
+Route::get('docs/api-docs.json', function () {
+    $filePath = storage_path('api-docs/api-docs.json');
+    if (file_exists($filePath)) {
+        return response()->file($filePath);
+    }
+    return response()->json(['error' => 'Documentation not generated'], 404);
+});

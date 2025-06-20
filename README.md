@@ -14,7 +14,7 @@ A comprehensive Laravel 11 starter template with Docker, authentication, health 
 - 💾 **SQLite by Default** - Lightweight database setup for rapid development
 - 🚀 **Production Ready** - Optimized for both development and production
 - 🧪 **Testing Setup** - PHPUnit configuration with example tests
-- 📊 **API Documentation** - Ready for API documentation tools
+- 📊 **API Documentation** - Automatic Swagger/OpenAPI documentation
 - ⚡ **Modern Frontend** - Vite build tool with Tailwind CSS
 
 ## Quick Start
@@ -50,10 +50,20 @@ A comprehensive Laravel 11 starter template with Docker, authentication, health 
    docker-compose exec app php artisan db:seed
    ```
 
-5. **Access your application**
+5. **Setup Swagger documentation**
+   ```bash
+   # Publish Swagger assets
+   docker-compose exec app php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+   
+   # Generate API documentation
+   docker-compose exec app php artisan l5-swagger:generate
+   ```
+
+6. **Access your application**
    - Web: http://localhost:8000
    - API: http://localhost:8000/api
    - Health Check: http://localhost:8000/health
+   - **API Documentation**: http://localhost:8000/api/documentation
 
 ## Troubleshooting
 
@@ -76,6 +86,10 @@ docker-compose exec app php artisan migrate
 
 # Seed the database
 docker-compose exec app php artisan db:seed
+
+# Setup Swagger documentation
+docker-compose exec app php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+docker-compose exec app php artisan l5-swagger:generate
 ```
 
 ### Common Issues
@@ -83,6 +97,7 @@ docker-compose exec app php artisan db:seed
 - **Autoloader not found**: Run `docker-compose exec app composer install`
 - **Database not found**: The migration command will prompt to create it automatically
 - **Permission issues**: Ensure storage and bootstrap/cache directories are writable
+- **Swagger not working**: Run `docker-compose exec app php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"` then `docker-compose exec app php artisan l5-swagger:generate`
 
 ## Environment Configuration
 
@@ -104,6 +119,40 @@ DB_DATABASE=/var/www/html/database/database.sqlite
 ### Health Checks
 - `GET /health` - Basic health check
 - `GET /health/detailed` - Detailed health check with database status
+
+## API Documentation
+
+The template includes automatic Swagger/OpenAPI documentation generation:
+
+- **Interactive Documentation**: http://localhost:8000/api/documentation
+- **JSON Specification**: http://localhost:8000/docs/api-docs.json
+- **YAML Specification**: http://localhost:8000/docs/api-docs.yaml
+
+### Features
+- ✅ **Automatic Generation** - Documentation is generated from code annotations
+- ✅ **Interactive Testing** - Test API endpoints directly from the documentation
+- ✅ **Authentication Support** - Bearer token authentication for protected endpoints
+- ✅ **Request/Response Examples** - Detailed examples for all endpoints
+- ✅ **Validation Rules** - Automatic documentation of validation requirements
+
+### Adding Documentation to New Endpoints
+
+Simply add OpenAPI annotations to your controller methods:
+
+```php
+/**
+ * @OA\Get(
+ *     path="/api/example",
+ *     summary="Example endpoint",
+ *     tags={"Examples"},
+ *     @OA\Response(response=200, description="Success")
+ * )
+ */
+public function example()
+{
+    return response()->json(['message' => 'Success']);
+}
+```
 
 ## Development
 
@@ -127,6 +176,12 @@ npm run dev
 npm run build
 ```
 
+### Regenerating API Documentation
+```bash
+# Regenerate documentation after code changes
+docker-compose exec app php artisan l5-swagger:generate
+```
+
 ### Artisan Commands
 ```bash
 docker-compose exec app php artisan list
@@ -139,6 +194,7 @@ docker-compose exec app php artisan list
 3. Run `php artisan config:cache` and `php artisan route:cache`
 4. Ensure proper file permissions on storage and bootstrap/cache directories
 5. Build frontend assets: `npm run build`
+6. Generate API documentation: `php artisan l5-swagger:generate`
 
 ## Logging
 
